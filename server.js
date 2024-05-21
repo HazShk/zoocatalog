@@ -8,6 +8,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+//send all files, eg css js
+app.use(express.static('public'));
 
 function validateAnimal(animal) {
   if (!animal.name || typeof animal.name !== "string") {
@@ -104,6 +106,10 @@ app.get("/api/animals/:id", (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+
 app.post("/api/animals", (req, res) => {
   //req.body is where our incoming content will be
   // set id based on what the next index of the array will be
@@ -112,7 +118,7 @@ app.post("/api/animals", (req, res) => {
   if (!validateAnimal(req.body)) {
     res.status(400).send("The animal is not properly formatted.");
   } else {
-    const animal = createNewAnimal(req.body, animals);
+    const animal = createNewAnimalBody(req.body, animals);
     res.json(animal);
   }
 });
