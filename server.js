@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
 //send all files, eg css js
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 function validateAnimal(animal) {
   if (!animal.name || typeof animal.name !== "string") {
@@ -107,6 +107,18 @@ app.get("/api/animals/:id", (req, res) => {
 });
 
 app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/index.html"));
+});
+
+app.get("/animals", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/animals.html"));
+});
+
+app.get("/zookeepers", (req, res) => {
+  res.sendFile(path.join(__dirname, "./public/zookeepers.html"));
+});
+
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
