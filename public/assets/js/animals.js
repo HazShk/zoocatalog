@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 const $animalForm = document.querySelector('#animals-form');
 const $displayArea = document.querySelector('#display-area');
 
@@ -29,6 +31,18 @@ const getAnimals = (formData = {}) => {
     queryUrl += `${key}=${value}&`;
   });
 
+  fetch(queryUrl
+    .then(response => {
+      if (!response.ok) {
+        return alert ('Error' + response.status.text);
+      }
+      return response.json();
+    })
+    .then (animalData => {
+      console.log(animalData);
+      printResults(animalData);
+    })
+  )
   console.log(queryUrl);
 
 };
